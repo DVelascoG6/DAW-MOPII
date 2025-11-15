@@ -212,6 +212,22 @@ Esto ofrece:
 - Retorno JSON: ahora incluye pagina y por_pagina para que el frontend sepa en qué página está
   y pueda mostrar controles de paginación.
 
+**Paginación y filtrado en el frontend**
+##Paginación:
+ - Se mantienen pagina y porPagina como variables reactivas.
+ - Se calculan los productos a mostrar según la página actual usando el backend.
+ - Botones “Anterior / Siguiente” controlan el número de página.
+
+##Búsqueda y filtrado combinados:
+ - Si hay un término de búsqueda, se usa la ruta /api/productos/buscar.
+ - Si hay filtros avanzados, se usa /api/productos/filtrar con query parameters.
+
+##Carga inicial:
+ - Al montar el componente, se llama a cargarProductos() para mostrar la primera página automáticamente.
+
+##Estilo y UX:
+ - Se mantiene un grid para mostrar productos y controles claros de filtros y paginación.
+
 **CORS**
 CORS (Cross-Origin Resource Sharing) Se trata de un mecanismo de seguridad implementado
 en navegadores web. Este mecanismo sirve para controlar las solicitudes HTTP realizadas
