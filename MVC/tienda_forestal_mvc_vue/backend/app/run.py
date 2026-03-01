@@ -16,10 +16,15 @@ CORS(app)
 
 # Registrar blueprint
 app.register_blueprint(producto_blueprint, url_prefix="/api")
+#app.register_blueprint(controllers.usuario_controller, GET "api/usuarios") #Cojeriamos los usuarios definidos
+
+# Este deberia ser un test para comprobar las rutas existentes
+#with app.test_request_context():
+#    print(app.url_map)
 
 @app.route("/")
 def home():
-    return "Backend Flask funcionando correctamente."
+    return "Estas ahi! Backend Flask funcionando correctamente."
 
 if __name__ == "__main__":
     app.run(debug=True, host="0.0.0.0", port=5000)

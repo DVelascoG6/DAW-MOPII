@@ -66,7 +66,7 @@ def crear_producto():
         return error("JSON body requerido", 400)
     # validación básica de campos obligatorios
     required = ["nombre", "tipo", "marca", "descripcion", "precio", "stock", "imagen"]
-    missing = [f for f in required if f not in datos]
+    missing = [f for f in required if f not in datos] # Es como un foreach de php.
     if missing:
         return error(f"Campos faltantes: {', '.join(missing)}", 400)
     try:

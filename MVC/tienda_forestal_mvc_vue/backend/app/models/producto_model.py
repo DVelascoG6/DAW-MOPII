@@ -166,6 +166,7 @@ def filtrar_productos(tipo=None, marca=None, precio_min=None, precio_max=None,
     where = " WHERE 1=1"
     params = []
 
+    # Caa vez que se filtra se crea otra vez la sentencia
     if tipo:
         where += " AND tipo = %s"
         params.append(tipo)

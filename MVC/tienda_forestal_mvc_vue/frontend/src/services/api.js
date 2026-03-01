@@ -15,7 +15,7 @@ import axios from "axios";
 */
 
 // Interceptor opcional por si en un futuro añades tokens o logs
-axios.interceptors.request.use(
+axios.interceptors.request.use( //Axios conecta js con bases de datos
   (config) => {
     // Si algún día añades auth:
     // const token = localStorage.getItem("token");
@@ -42,10 +42,10 @@ axios.interceptors.response.use(
  * GET /api/productos/filtrar
  * params = { tipo, marca, precio_min, precio_max, ordenar, pagina, por_pagina }
  */
-export async function filtrarProductos(params = {}) {
+export async function filtrarProductos(params = {}) { 
   const query = new URLSearchParams();
 
-  for (const [key, value] of Object.entries(params)) {
+  for (const [key, value] of Object.entries(params)) { //Busca en la tabla en base de parametros dados
     if (value !== null && value !== undefined && value !== "")
       query.append(key, value);
   }
@@ -57,7 +57,7 @@ export async function filtrarProductos(params = {}) {
 /**
  * GET /api/productos/buscar?termino=...
  */
-export async function buscarProductos(termino) {
+export async function buscarProductos(termino) { //funcion asincrona, export = public
   const res = await axios.get(
     `/api/productos/buscar?termino=${encodeURIComponent(termino)}`
   );
@@ -94,4 +94,17 @@ export async function actualizarProducto(id, payload) {
 export async function eliminarProducto(id) {
   const res = await axios.delete(`/api/productos/${id}`);
   return res.data;
+}
+
+//Nueva funcion delete, creada a peticion
+export async function eliminarProductosFiltrados(params = {}) { 
+  const query = new URLSearchParams();
+
+  for (const [key, value] of Object.entries(params)) { //Busca en la tabla en base de parametros dados
+    if (value !== null && value !== undefined && value !== "")
+      query.append(key, value);
+  }
+
+  const res = await axios.delete(`/api/productos/filtrar?${query.toString()}`);
+  return res.data; // devuelve { productos, total_resultados, pagina_actual, total_paginas }
 }

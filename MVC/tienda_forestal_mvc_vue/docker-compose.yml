@@ -1,14 +1,10 @@
-#version: "3.9" #Es un argumneto obsoleto.
-#              #Declaramos la version de la especificacion del archivo compose
-               #en las versiones actualizadas de docker no es necesario, ya que 
-               #lo detecta automaticamente.
 
 services:
   #Desplegamos los servicios del backend en Flask
   backend:
     build: ./backend
     container_name: tienda_flask_backend
-    restart: no
+    restart: always
     ports:
       - "5000:5000"
     environment:
@@ -19,21 +15,14 @@ services:
       DB_NAME: tienda_forestal
     depends_on:
       - db
- # Espera a que MySQL esté listo
- #   healthcheck:
- #     test: ["CMD", "python", "-c", "import mysql.connector; mysql.connector.connect(host='db', user='mopii', password='daw', database='tienda_forestal')"]
- #     interval: 10s
- #     timeout: 30s
- #     retries: 5
 
   #Desplegamos los servicios del frontend
   frontend:
     build: ./frontend
     container_name: tienda_vue_frontend
-    restart: no
+    restart: always
     ports:
- #    - "8080:8080"
-      - "8080:80"
+      - "8082:80"
     depends_on:
       - backend
         
@@ -41,14 +30,14 @@ services:
   db:
     image: mysql:8.0
     container_name: tienda_mysql_db
-    restart: no 
+    restart: always
     environment:
-      MYSQL_ROOT_PASSWORD: iesmariamoliner
+      MYSQL_ROOT_PASSWORD: iesmariamoliner # CREDENCIALES
       MYSQL_DATABASE: tienda_forestal
       MYSQL_USER: mopii
       MYSQL_PASSWORD: daw
     ports:
-      - "3306:3306"
+      - "3307:3307" #Puertos cambiado por error a la hora de compose up
     volumes:
       # Persistencia de datos
       - mysql_data:/var/lib/mysql
@@ -58,14 +47,12 @@ services:
   phpmyadmin:
     image: phpmyadmin/phpmyadmin
     container_name: phpmyadmin_web
-    restart: no
+    restart: always
     ports:
       - "8081:80"     # Acceso desde http://localhost:8081 
                       # login:
     environment:
-      PMA_HOST: db        # phpMyAdmin debe mirar al contenedor "db" creado con anterioridad
-  #   PMA_USER: root
-  #   PMA_PASSWORD: iesmariamoliner
+      PMA_HOST: db        # phpMyAdmin debe mirar al contenedor "db" creado con anterioridad //ESTOS SON LOS CREDENCIALES PARA EL LOGIN AUTOMATICO
       PMA_USER: mopii
       PMA_PASSWORD: daw
     depends_on:

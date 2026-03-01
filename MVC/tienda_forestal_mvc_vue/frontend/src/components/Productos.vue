@@ -18,7 +18,7 @@
     <input
       type="text"
       v-model="terminoBusqueda"
-      placeholder="Buscar por nombre, tipo o marca"
+      placeholder="Busca con sentido, ok?"
       @keyup.enter="accionBuscar"
       class="search-input"
     />
@@ -28,10 +28,10 @@
          FILTROS AVANZADOS
          =============================== -->
     <div class="filtros">
-      <input type="text" v-model="filtroTipo" placeholder="Tipo (motosierra, taladro…)" />
-      <input type="text" v-model="filtroMarca" placeholder="Marca (STIHL, Makita…)" />
-      <input type="number" v-model.number="precioMin" placeholder="Precio mínimo" />
-      <input type="number" v-model.number="precioMax" placeholder="Precio máximo" />
+      <input type="text" v-model="filtroTipo" placeholder="Objeto (motosierra, taladro…)" />
+      <input type="text" v-model="filtroMarca" placeholder="Branding (STIHL, Makita…)" />
+      <input type="number" v-model.number="precioMin" placeholder="Precio mín" />
+      <input type="number" v-model.number="precioMax" placeholder="Precio máx" />
 
       <select v-model="orden">
         <option value="">Orden</option>
@@ -52,10 +52,10 @@
          =============================== -->
     <div v-else class="grid">
       <div v-for="p in productos" :key="p.id" class="card">
-        <img :src="'/img/' + p.imagen" :alt="p.nombre" />
+        <img :src="'https://c.tenor.com/wCrZqAL1cWMAAAAC/tenor.gif' + p.imagen" :alt="p.nombre" />
         <h3>{{ p.nombre }}</h3>
         <p>{{ p.descripcion }}</p>
-        <strong>{{ p.precio }} €</strong><br>
+        <strong>{{ p.precio }} €/$</strong><br>
         <small>Stock: {{ p.stock }}</small>
       </div>
     </div>
@@ -65,7 +65,7 @@
          =============================== -->
     <div class="paginacion" v-if="totalPaginas > 1">
       <button @click="cambiarPagina(paginaActual - 1)" :disabled="paginaActual === 1">
-        Anterior
+        <- Anterior
       </button>
 
       <button
@@ -78,12 +78,12 @@
       </button>
 
       <button @click="cambiarPagina(paginaActual + 1)" :disabled="paginaActual === totalPaginas">
-        Siguiente
+        Siguiente ->
       </button>
     </div>
 
     <!-- Información adicional -->
-    <p v-if="totalResultados > 0">
+    <p v-if="totalResultados > 0" style="color: green;">
       Mostrando página {{ paginaActual }} de {{ totalPaginas }}
       ({{ totalResultados }} productos en total)
     </p>
@@ -231,11 +231,11 @@ cargarProductos()
 .grid {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
-  gap: 1rem;
+  gap: 1.5rem;
 }
 
 .card {
-  background: white;
+  background: lightgray;
   padding: 1rem;
   border-radius: 10px;
   box-shadow: 0 0 5px rgba(0,0,0,0.1);
@@ -260,7 +260,7 @@ cargarProductos()
 }
 
 button.activo {
-  background-color: #4CAF50;
+  background-color: green;
   color: white;
   font-weight: bold;
 }
